@@ -1,0 +1,47 @@
+/* css file for voiceannotation */
+.filter_voiceannotation_content {
+    color:blue;
+}
+.filter_voiceannotation_bottomright {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+}
+.filter_voiceannotation_bottomright_text {
+    background-color: #fdfbfb;
+    padding: 10px 10px 0 10px;
+    margin: 5px;
+    border: 10px solid #f2f2f2;
+    border-radius: 15px;
+    font-size: 16px;
+}
+a.filter_voiceannotation_box_link, a.filter_voiceannotation_box_link:visited, a.filter_voiceannotation_box_link:active {
+    color: #0088ee;
+    font-size: 40px;
+}
+a.filter_voiceannotation_box_link:hover {
+    color: #0074d9;
+}
+#filter_voiceannotation_answerDiv{
+    color: #343a40;
+}
+#filter_voiceannotation_update_id {
+    float: right;
+}
+.filter_voiceannotation_rec_box {
+    border: 2px dashed #bdbdbd;
+    padding: 10px;
+    margin: 10px;
+}
+#filter_voiceannotation_rec_btn {
+    text-align: center;
+}
+#filter_voiceannotation_btn {
+    display: none;
+}
+.filter_voiceannotation_player{
+    background-color: gold;
+    padding: 0 8px 0 8px;
+    border-bottom: 1px dashed black;
+    cursor: pointer;
+}
