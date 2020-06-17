@@ -97,3 +97,5 @@ fabric.properties
 .idea/moodle-qtype_sassessment.iml
 .idea/vcs.xml
 .idea/webServers.xml
+.idea/misc.xml
+.idea/voiceannotation.iml
