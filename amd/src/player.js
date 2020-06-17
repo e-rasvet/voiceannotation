@@ -14,7 +14,14 @@ define(['jquery', 'core/modal_factory', 'core/modal_events', 'core/config'], fun
             var attachmentUrl = 0;
 
             this.modal.getRoot().on(ModalEvents.shown, function() {
-                $('#filter_voiceannotation_audio_player_listen').attr('src', attachmentUrl);
+                var audio = document.getElementById('filter_voiceannotation_audio_player_listen');
+                audio.autoplay = true;
+                audio.load()
+                audio.addEventListener("load", function() {
+                    audio.play();
+                }, true);
+                audio.src = attachmentUrl;
+                //$('#filter_voiceannotation_audio_player_listen').attr('src', attachmentUrl);
                 $('#filter_voiceannotation_player_comment').html(commentText);
             }.bind(this));
 

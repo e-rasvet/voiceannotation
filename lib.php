@@ -26,6 +26,15 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * @param $course
+ * @param $cm
+ * @param $context
+ * @param $filearea
+ * @param $args
+ * @param $forcedownload
+ * @param array $options
+ */
 function filter_voiceannotation_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
 
     $fs = get_file_storage();
@@ -37,6 +46,12 @@ function filter_voiceannotation_pluginfile($course, $cm, $context, $filearea, $a
 }
 
 
+/**
+ * @param $contextid
+ * @param string $component
+ * @param string $filearea
+ * @return int
+ */
 function filter_file_get_unused_draft_itemid($contextid, $component = 'filter_voiceannotation', $filearea = 'attachment') {
     if (isguestuser() or !isloggedin()) {
         // guests and not-logged-in users can not be allowed to upload anything!!!!!!

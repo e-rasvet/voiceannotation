@@ -1,7 +1,7 @@
 define(['jquery'], function($) {
 
     return {
-        init: function() {
+        init: function(quickrecording) {
 
             $( document ).ready(function() {
 
@@ -50,6 +50,11 @@ define(['jquery'], function($) {
                                 getHtml(event.target);
 
                                 $('#filter_voiceannotation_box_btn').show();
+                                //$('#filter_voiceannotation_box_btn').trigger('click');
+
+                                if($("#filter_voiceannotation_rec").is(":visible") == false && quickrecording == 1) {
+                                    $("#filter_voiceannotation_container")[0].click();
+                                }
 
                             } else {
                                 $('#filter_voiceannotation_box_btn').hide();

@@ -57,6 +57,10 @@ class filter_voiceannotation_renderer extends plugin_renderer_base {
         return $embedhtml;
     }
 
+    /**
+     * @param $content
+     * @return stdClass
+     */
     private function parse_filter_tag($content){
         $data = explode("TEXT=", $content);
         $data2 = explode(":ATT=", $data[1]);

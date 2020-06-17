@@ -66,3 +66,4 @@ $string['startrecording'] = 'Start';
 $string['recordingbox'] = 'Voice annatation';
 $string['update'] = 'Submit';
 $string['close'] = 'Close';
+$string['quickrecording'] = 'If you select YES, a recording popup will appear right after highlighting text';

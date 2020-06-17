@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
+/**filter_voiceannotation_container
  *
  *
  * @package    filter_voiceannotation
@@ -100,16 +100,16 @@ class filter_voiceannotation extends moodle_text_filter {
          */
         if ($this->callCounter == 1) {
 
-            $PAGE->requires->js_call_amd('filter_voiceannotation/recording_box', 'init');
+            $config = get_config('filter_voiceannotation');
+
+            $PAGE->requires->js_call_amd('filter_voiceannotation/recording_box', 'init', array($config->quickrecording));
             $PAGE->requires->js_call_amd('filter_voiceannotation/player');
             $PAGE->requires->js_call_amd('filter_voiceannotation/recorder');
-
-            $config = get_config('filter_voiceannotation');
 
             //$contextid = context_course::instance($COURSE->id)->id;
             $itemid = $this->filter_file_get_unused_draft_itemid($contextid, 'user', 'draft');
 
-            $result = "|FILTER CODE CALLED|";
+            $result = "";
 
             $btnattributes = array(
                 'name' => 'filter_voiceannotation_recording_audio',
@@ -177,6 +177,10 @@ class filter_voiceannotation extends moodle_text_filter {
     }
 
 
+    /**
+     * @param string $type
+     * @return |null
+     */
     public function get_repo_id($type = 'upload') {
         global $CFG;
         require_once($CFG->dirroot . '/lib/form/filemanager.php');
@@ -188,6 +192,12 @@ class filter_voiceannotation extends moodle_text_filter {
         return null;
     }
 
+    /**
+     * @param $contextid
+     * @param string $component
+     * @param string $filearea
+     * @return int
+     */
     public function filter_file_get_unused_draft_itemid($contextid, $component = 'filter_voiceannotation', $filearea = 'attachment') {
         if (isguestuser() or !isloggedin()) {
             // guests and not-logged-in users can not be allowed to upload anything!!!!!!

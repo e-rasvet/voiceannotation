@@ -13,6 +13,8 @@ Example of source code of annotation:
 {{VOICEANNOTATION:TEXT=journal entry:ATT=534147385:COMM=Hello. How are you today? }}
 This text be added to entry automatically and allow the filter to parse this tag to media player with popup window. 
 
+For adding voice annotation, you need to activate filter on your Moodle settings page, and highlight any text in journal entry. You will see microphone button in right-bottom corner of your browser screen. Click it and record your voice annotation. 
+
 Version
 =======
 1.0

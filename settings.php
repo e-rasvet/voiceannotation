@@ -46,6 +46,10 @@ if ($ADMIN->fulltree) {
         new lang_string('speechtotextlang', 'filter_voiceannotation'),
         '', 'en-US', $speechtotextlang));
 
+    $settings->add(new admin_setting_configselect('filter_voiceannotation/quickrecording',
+        new lang_string('quickrecording', 'filter_voiceannotation'),
+        '', 0, array(0 => new lang_string('no'), 1 => new lang_string('yes'))));
+
 
     $amazon_region = array( "us-east-1" => "US East (N. Virginia)", "us-east-2" => "US East (Ohio)", "us-west-2" => "US West (Oregon)",
         "ap-southeast-2" => "Asia Pacific (Sydney)", "ca-central-1" => "Canada (Central)",
