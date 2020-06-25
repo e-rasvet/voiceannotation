@@ -71,18 +71,19 @@ if (count($vacomments) > 1) {
  * Update html journal entry and set voice annotation marker
  */
 
+
 $html_array = explode('<span id="filter_voiceannotation_marker">', $html);
 $html_head = $html_array[0];
 $html_array = explode('</span>', $html_array[1]);
 $html_body = $html_array[0];
-$html_footer = $html_array[1];
+$html_footer = implode('</span>', array_slice($html_array, 1));  // $html_array[1]; //
 
 $html_new = $html_head . "{{VOICEANNOTATION:TEXT={$html_body}:ATT={$itemid}:COMM={$comment}}}" . $html_footer;
-
 
 $newentry = new stdClass();
 $newentry->text = $html_new;
 $newentry->id = $entryID;
+
 if (!$DB->update_record("journal_entries", $newentry)) {
     print_error("Could not update your journal");
 }

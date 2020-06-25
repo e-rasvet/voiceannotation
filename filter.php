@@ -119,7 +119,7 @@ class filter_voiceannotation extends moodle_text_filter {
                 'speechtotextlang' => 'en-US',
                 'amazon_region' => $config->amazon_region,
                 'amazon_accessid' => $config->amazon_accessid,
-                'amazon_secretkey' => $config->amazon_secretkey,
+                'amazon_secretkey' => '98734ufnsdkweu23488234bmsbdfnmb',
                 'type' => 'button',
                 'options' => json_encode(array(
                     'repo_id' => $this->get_repo_id(),

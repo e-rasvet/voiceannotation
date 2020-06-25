@@ -1,3 +1,5 @@
+function recBtn(){return false;}
+
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
@@ -94,15 +96,17 @@ exports.createStringToSign = function (time, region, service, request) {
 };
 
 exports.createSignature = function (secret, time, region, service, stringToSign) {
-  var h1 = hmac('AWS4' + secret, toDate(time)); // date-key
 
-  var h2 = hmac(h1, region); // region-key
+    var h1 = hmac('AWS4' + secret, toDate(time)); // date-key
 
-  var h3 = hmac(h2, service); // service-key
+    var h2 = hmac(h1, region); // region-key
 
-  var h4 = hmac(h3, 'aws4_request'); // signing-key
+    var h3 = hmac(h2, service); // service-key
 
-  return hmac(h4, stringToSign, 'hex');
+    var h4 = hmac(h3, 'aws4_request'); // signing-key
+
+    return hmac(h4, stringToSign, 'hex');
+
 };
 
 exports.createPresignedS3URL = function (name, options) {
@@ -138,9 +142,16 @@ exports.createPresignedURL = function (method, host, path, service, payload, opt
 
   var canonicalRequest = exports.createCanonicalRequest(method, path, query, options.headers, payload);
   var stringToSign = exports.createStringToSign(options.timestamp, options.region, service, canonicalRequest);
-  var signature = exports.createSignature(options.secret, options.timestamp, options.region, service, stringToSign);
-  query['X-Amz-Signature'] = signature;
-  return options.protocol + '://' + host + path + '?' + querystring.stringify(query);
+  //var signature = exports.createSignature(options.secret, options.timestamp, options.region, service, stringToSign);
+
+
+    //query['X-Amz-Signature'] = signature;
+    //return options.protocol + '://' + host + path + '?' + querystring.stringify(query);
+
+    var url = options.protocol + '://' + host + path;
+
+    return [toDate(options.timestamp), options.region, service, stringToSign, query, url, querystring];
+
 };
 
 function toTime(time) {
@@ -434,27 +445,41 @@ var streamAudioToWebSocket = function streamAudioToWebSocket(userMediaStream) {
   micStream.setStream(userMediaStream); // Pre-signed URLs are a way to authenticate a request (or WebSocket connection, in this case)
   // via Query Parameters. Learn more: https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html
 
-  var url = createPresignedUrl(); //open up our WebSocket connection
+  //var url = createPresignedUrl(); //open up our WebSocket connection
+  //  console.log(url);
 
-  socket = new WebSocket(url);
-  socket.binaryType = "arraybuffer"; // when we get audio data from the mic, send it to the WebSocket if possible
+    var keyOptions = createPresignedUrl();
 
-  socket.onopen = function () {
-    micStream.on('data', function (rawAudioChunk) {
-        // the audio stream is raw audio bytes. Transcribe expects PCM with additional metadata, encoded as binary
-        var binary = convertAudioToBinaryMessage(rawAudioChunk);
-        if (socket.OPEN) {
-            socket.send(binary);
-        }
-    });
-  }; // handle messages, errors, and close events
+    /*
+     * Sign AWS request
+     */
+    var uploadUrl = M.cfg.wwwroot + "/filter/voiceannotation/sign.php";
 
-    socket.onerror = function(error) {
-        console.log(`[socket error] ${error.message}`);
-    };
+    $.post( uploadUrl, { date: keyOptions[0], region: keyOptions[1], service: keyOptions[2], stringToSign: keyOptions[3] }, function( data ) {
+        var query = keyOptions[4];
+        query['X-Amz-Signature'] = data.key;
+        var url = keyOptions[5] + '?' + keyOptions[6].stringify(query);
 
+        socket = new WebSocket(url);
+        socket.binaryType = "arraybuffer"; // when we get audio data from the mic, send it to the WebSocket if possible
 
-  wireSocketEvents();
+        socket.onopen = function () {
+            micStream.on('data', function (rawAudioChunk) {
+                // the audio stream is raw audio bytes. Transcribe expects PCM with additional metadata, encoded as binary
+                var binary = convertAudioToBinaryMessage(rawAudioChunk);
+                if (socket.OPEN) {
+                    socket.send(binary);
+                }
+            });
+        }; // handle messages, errors, and close events
+
+        socket.onerror = function(error) {
+            console.log(`[socket error] ${error.message}`);
+        };
+
+        wireSocketEvents();
+    }, "json");
+
 };
 
 function setLanguage() {
