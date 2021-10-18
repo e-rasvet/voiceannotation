@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="172.105.193.141" id="fc3ccad9-1c8c-417b-83ec-e423005ef77c" keyPath="$USER_HOME$/.ssh/private-open-ssh" port="7822" customName="172.105.193.141" nameFormat="CUSTOM" username="smart">
+        <option name="customName" value="172.105.193.141" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>
